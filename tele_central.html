@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1" />
+
+  <title>tele central</title>
+  <link rel="stylesheet" href="tele_central.css">
+  <link rel="stylesheet" href="lib/inputctl_XYPadcss.css">
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script type="text/javascript" src="//cdn.webrtc.ecl.ntt.com/skyway-latest.js"></script>
+  <script type="text/javascript" src="lib/kmconnector-js-master/indexBrowser.js"></script>
+  <script src="lib/utl.js"></script>
+  <script src="lib/jquery.kontrol_xy_onry.js"></script>
+  <script src="lib/inputctl_XYPad.js"></script>
+
+  <script type="text/javascript">
+      window.__SKYWAY_KEY__ = 'ebd8fa9e-8d33-4834-9a4c-86fe203f09e5';
+  </script>
+
+  <script type="text/javascript" src="tele_central.js"></script>
+
+
+</head>
+
+<body>
+
+<div id="menuSetting" class="on">Setting</div>
+  <!-- Video area -->
+  <div id="videoPanel" >
+    <video id="their-video" autoplay playsinline></video>
+    <video id="my-video" muted="true" autoplay playsinline></video>
+  </div>
+
+  <!-- Steps -->
+  <div id="settingPanel" >
+    <div class="select">
+      <label for="audioSource">Audio: </label><select id="audioSource"></select>
+    </div>
+
+    <div class="select">
+      <label for="videoSource">Video: </label><select id="videoSource"></select>
+    </div>
+
+    <!-- Get local audio/video stream -->
+    <div id="step1">
+      <p>画面の上部にある「許可」をクリックすると、ウェブカメラとマイクからアクセスできるようになります。</p>
+      <div id="step1-error">
+        <p>ウェブカメラとマイクにアクセスできませんでした。ブラウザの許可を求められたら許可をクリックしてください。</p>
+        <a href="#" class="pure-button pure-button-error" id="step1-retry">Try again</a>
+      </div>
+    </div>
+
+    <!-- Make calls to others -->
+    <div id="step2">
+      <p>ConnectID: <span id="my-id">...</span> <input id="changeIDBtn" type="button" value="Change ID"></p>
+    </div>
+
+    <!-- Call in progress -->
+    <div id="step3">
+      <p><input id="end-call" type="button" value="Disconnect"></p>
+    </div>
+
+    <ul id="motorControls">
+      <li id="motorLeftStatus"><input id="selectLeftMotorBtn" type="button" value="Select left Motor"> <input id="motorLeftReversBtn" type="button" value="Revers"><span id="motorLeftStatusTxt"></span></li>
+      <li id="motorRightStatus"><input id="selectRightMotorBtn" type="button" value="Select right Motor"> <input id="motorRightReversBtn" type="button" value="Revers"><span id="motorRightStatusTxt"></span></li>
+      <li id="padXYSwapStatus">Pad input XY swap <input id="padXYSwapBtn" type="button" value="XYSwap"></li>
+      <li>maxSpeed<input id="maxSpeedBtn" type="range" min="0"  max="10" step="1" value="10"></li>
+    </ul>
+
+  </div>
+<div id="pad">
+  <div id="inputctl_XYPad_wrap" ></div>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+html {
+    height: 100%;
+}
+
+body {
+    height: 100%;
+    margin: 0;
+}
+/*********************
+ section::XYスライダー
+*********************/
+#Status{
+    height: 40px;
+    overflow: hidden;
+    font-size: 14px;
+    word-break: break-all;
+}
+#inputctl_XYPad_wrap{
+    height:100%;
+}
+.inputctl_XYPad .InputSeekIntervalCntSW{
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+.inputctl_XYPad {
+    /**新規作成時のデフォルトのサイズ 変更時はインラインで上書き(width,height)される**/
+    min-width: 200px;
+    min-height: 200px;
+}
