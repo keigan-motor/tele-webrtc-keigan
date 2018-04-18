@@ -5,7 +5,11 @@
   margin: 0;
   padding: 0;
   text-align: center;
+  overflow: hidden;
+  height:100%;
 
+}
+#videoPanel.pad{
   height: calc(100% - 230px);
 }
 #swipePanel{
@@ -16,7 +20,22 @@
   /*background-color: rgba(21, 193, 243, 0.29);*/
   z-index: 50;
 }
+#swipeDraw{
+  position: absolute;
+  top:0;left: 0;
 
+}
+#swipeico{
+  width: 100px;
+  height: 100px;
+  opacity: 0.5;
+  position: absolute;
+  top: calc(50% - 50px);
+  left: calc(50% - 50px);
+  z-index: 100;
+  pointer-events: none;
+  user-select: none;
+}
 #my-video {
   width: 140px;
   /*height: auto;*/
@@ -54,6 +73,10 @@
   height: 200px;
   margin: 10px 10px;
   position: relative;
+  display: none;
+}
+#pad.pad{
+  display: block;
 }
 
 input.on{

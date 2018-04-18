@@ -28,7 +28,8 @@
 
   <!-- Video area -->
   <div id="videoPanel" >
-    <div id="swipePanel"></div>
+
+    <div id="swipePanel"><img id="swipeico" src="swipe.png" alt=""> <canvas id="swipeDraw" ></canvas></div>
     <video id="their-video" autoplay playsinline></video>
     <video id="my-video" muted="true" autoplay playsinline></video>
 
@@ -45,6 +46,9 @@
     </div>
     <div class="select">
       <label for="hideMyVideo">Hide my video: </label><input id="hideMyVideo" type="checkbox"></select>
+    </div>
+    <div class="select">
+      <label for="hideMyVideo">Show move pad: </label><input id="showMovePad" type="checkbox"></select>
     </div>
     <!-- Get local audio/video stream -->
     <div id="step1">

@@ -2,7 +2,7 @@
 $(function() {
     const CONTROLLER_TYPE={'PAD':0,'SWIPE':1};
     let conID =UTL_load_storage("conID");
-
+    $('#swipeico').hide();
     $('#callto-id').val(conID);
     // Peer object
     const peer = new Peer({
@@ -141,6 +141,7 @@ $(function() {
         $('#step1, #step2').hide();
         $('#step3').show();
         $('#menuSetting').trigger("click");
+        $('#swipeico').show();
     }
 
 
@@ -194,15 +195,53 @@ $(function() {
     // スワイプUI
     //------------------------------
     //swipePanel
-    let manager = new Hammer.Manager($('#swipePanel')[0]);
-    let ev = new Hammer.Swipe({direction: Hammer.DIRECTION_ALL,velocity:0.3, threshold: 10});
-    manager.add(ev);
-    let handlerFunction=function(){};
-    manager.on('swipe', function(e) {
+    let swipeicoClearTimeoutID=0;
+    let $swipePanel=$('#swipePanel');
+    let canvas=$('#swipeDraw')[0];
+    let graphic= canvas.getContext("2d");
 
-        //console.log(e.deltaX,e.deltaY,e.distance);
-        let tl=1/(Math.abs(e.deltaX)+Math.abs(e.deltaY));
-        let pos={x:e.deltaX*tl,y:e.deltaY*tl};
+    let manager = new Hammer.Manager(canvas);
+    let pan=new Hammer.Pan({ direction: Hammer.DIRECTION_ALL, threshold: 0 })
+    manager.add(pan);
+
+    let panstartPos={x:0,y:0};
+    let panpress=false;
+    $(window).resize(canvasResize);
+    function canvasResize() {
+        canvas.setAttribute('width',$swipePanel.innerWidth());
+        canvas.setAttribute('height',$swipePanel.innerHeight());
+    }
+    canvasResize();
+
+    manager.on('panstart', function(e) {
+        $('#swipeico').hide();
+        clearTimeout(swipeicoClearTimeoutID);
+        swipeicoClearTimeoutID=setTimeout(function(){$('#swipeico').show();},20000);
+
+        panpress=true;
+        panstartPos=e.center;
+    });
+    manager.on('panmove', function(e) {
+        if(!panpress){return;}
+        graphic.clearRect(0, 0, canvas.width, canvas.height);
+        graphic.beginPath();
+        graphic.lineWidth=2;
+        graphic.strokeStyle = 'rgb(255, 39, 0)';
+        graphic.moveTo(panstartPos.x,panstartPos.y);
+        graphic.lineTo(e.center.x,e.center.y);
+        graphic.stroke();
+    });
+    manager.on('panend', function(e){
+        let swReverse=-1;
+        panpress=false;
+        graphic.clearRect(0, 0, canvas.width, canvas.height);
+        let tl=1/(Math.abs(e.deltaX*swReverse)+Math.abs(e.deltaY));
+        let pos={x:e.deltaX*swReverse*tl,y:e.deltaY*swReverse*tl};
+        if(pos.y>0&&pos.y<0.4){
+            pos.y=pos.y*-1;
+        }
+
+        //console.log(pos);
         sendVector(pos,CONTROLLER_TYPE.SWIPE);
     });
 
@@ -219,8 +258,14 @@ $(function() {
 
     $('#hideMyVideo').on('click',function(){
         let chk_status = $(this).prop("checked");
-        //$(this).prop("checked", !chk_status);
         $("#my-video").toggle(!chk_status);
+    });
+
+    $('#showMovePad').on('click',function(){
+        let chk_status = $(this).prop("checked");
+        $("#videoPanel").toggleClass("pad",chk_status);
+        $("#pad").toggleClass("pad",chk_status);
+        $(window).trigger('resize');
     });
 
     //------------------------------
@@ -231,7 +276,6 @@ $(function() {
         if(dataConnection){
               dataConnection.send({controllerType:moveType,x:kMVector2.x,y:kMVector2.y});
         }
-
     }
 
     window.sendVector=sendVector;//debug

@@ -380,7 +380,7 @@ $(function() {
             kMVector2= new KMVector2(kMVector2.y,kMVector2.x);
         }
 
-        let movedistanceRange=360;//Math.PI*2;//moveVector MOVETYPE.POSITION 時の1回の移動距離
+        let movedistanceRange=180;//Math.PI*2;//moveVector MOVETYPE.POSITION 時の1回の移動距離
 
         let sθ=kMVector2.RadianFromZero();
         let sx=kMVector2.x;
@@ -430,8 +430,6 @@ $(function() {
                 break;
 
             case MOVE_TYPE.POSITION:
-
-
                 //info::移動座標は積算される(コマンド実行回数×座標)
                 let tl=1/(Math.abs(lr)+Math.abs(rr));
                 let ml=lr*tl*movedistanceRange;
